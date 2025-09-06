@@ -1,14 +1,43 @@
-[tool.poetry]
+[project]
 name = "wordhatch"
 version = "0.1.0"
 description = ""
-authors = ["Thummanoon Kunanuntakij <gentlerainsky@gmail.com>"]
+authors = [
+    {name = "Thummanoon Kunanuntakij",email = "tkunanuntakij@gmail.com"}
+]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.13"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)"
+]
 
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+isort = "^6.0.1"
+ruff = "^0.12.12"
+pre-commit = "^4.3.0"
+black = "^25.1.0"
+mypy = "^1.17.1"
+
+[tool.mypy]
+files = ["wordhatch", "tests"] 
+strict = true
+
+[tool.poe.tasks]
+test = "pytest"
+ruff = "ruff check"
+black = "black ."
+mypy = "mypy"
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+addopts = "-ra -q"
