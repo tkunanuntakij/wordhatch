@@ -27,10 +27,15 @@ black = "^25.1.0"
 mypy = "^1.17.1"
 
 [tool.mypy]
-files = ["wordhatch", "tests"] 
+files = ["wordhatch", "tests"]
 strict = true
 
+[tool.isort]
+profile = "black"
+
 [tool.poe.tasks]
+pre-commit = "pre-commit run --all-files"
+pre-commit-install = "pre-commit install"
 test = "pytest"
 ruff = "ruff check"
 black = "black ."

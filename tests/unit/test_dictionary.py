@@ -2,7 +2,7 @@ from typing import Optional
 
 import pytest
 
-from wordhatch.definition_provider import DefinitionProvider, DefinitionStore
+from wordhatch.definition_provider.interface import DefinitionProvider, DefinitionStore
 from wordhatch.dictionary import get_definition
 from wordhatch.models import WordDefinition
 

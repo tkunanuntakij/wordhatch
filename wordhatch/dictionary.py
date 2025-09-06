@@ -1,4 +1,4 @@
-from wordhatch.definition_provider import DefinitionProvider, DefinitionStore
+from wordhatch.definition_provider.interface import DefinitionProvider, DefinitionStore
 from wordhatch.models import WordDefinition
 
 
