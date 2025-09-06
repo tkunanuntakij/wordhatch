@@ -1,25 +1,28 @@
+from typing import Optional
+
 import pytest
-from typing import Callable, Optional
+
+from wordhatch.definition_provider import DefinitionProvider, DefinitionStore
 from wordhatch.dictionary import get_definition
 from wordhatch.models import WordDefinition
 
 
-def get_fake_definition_generator(
-    result: WordDefinition,
-) -> Callable[[str], WordDefinition]:
-    def fake_definition_generator(w: str) -> WordDefinition:
-        return result
+class FakeDefinitionProvider(DefinitionProvider):
+    def __init__(self, result: WordDefinition):
+        self.result = result
 
-    return fake_definition_generator
+    def get(self, word: str) -> WordDefinition:
+        return self.result
 
 
-def get_fake_cache_store(
-    result: Optional[WordDefinition],
-) -> Callable[[str], Optional[WordDefinition]]:
-    def fake_cache_store(w: str) -> Optional[WordDefinition]:
-        return result
+class FakeDefinitionStore(DefinitionStore):
+    def __init__(self, result: Optional[WordDefinition]):
+        self.result = result
 
-    return fake_cache_store
+    def get(self, word: str) -> Optional[WordDefinition]:
+        return self.result
+
+    def set(self, definition: WordDefinition) -> None: ...
 
 
 def test_get_definition_generates_new_when_not_cached() -> None:
@@ -30,8 +33,8 @@ def test_get_definition_generates_new_when_not_cached() -> None:
     )
     definition = get_definition(
         test_word,
-        get_fake_definition_generator(generated_definition),
-        get_fake_cache_store(None),
+        FakeDefinitionProvider(generated_definition),
+        FakeDefinitionStore(None),
     )
     assert definition == generated_definition
 
@@ -50,19 +53,19 @@ def test_get_definition_returns_cached_when_available() -> None:
 
     definition = get_definition(
         test_word,
-        get_fake_definition_generator(generated_definition),
-        get_fake_cache_store(cached_definition),
+        FakeDefinitionProvider(generated_definition),
+        FakeDefinitionStore(cached_definition),
     )
     assert definition == cached_definition
 
 
-@pytest.mark.parametrize('test_word', ['', '   ', '\n'])
+@pytest.mark.parametrize("test_word", ["", "   ", "\n"])
 def test_get_definition_raise_error_with_empty_string_input(test_word: str) -> None:
     generated_definition = WordDefinition(word="", definition="")
     cached_definition = WordDefinition(word="", definition="")
     with pytest.raises(ValueError):
         get_definition(
             test_word,
-            get_fake_definition_generator(generated_definition),
-            get_fake_cache_store(cached_definition),
+            FakeDefinitionProvider(generated_definition),
+            FakeDefinitionStore(cached_definition),
         )
