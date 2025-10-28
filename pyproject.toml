@@ -6,11 +6,15 @@ authors = [
     {name = "Thummanoon Kunanuntakij",email = "tkunanuntakij@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<4.0"
 dependencies = [
-    "fastapi (>=0.116.1,<0.117.0)",
-    "pydantic (>=2.11.7,<3.0.0)",
-    "dotenv (>=0.9.9,<0.10.0)"
+    "fastapi (>=0.120.1,<0.121.0)",
+    "pydantic (>=2.12.3,<3.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "langchain (>=1.0.2,<2.0.0)",
+    "langchain-ollama (>=1.0.0,<2.0.0)",
+    "ollama (>=0.6.0,<0.7.0)",
+    "pytest-asyncio (>=1.2.0,<2.0.0)"
 ]
 
 
@@ -37,6 +41,8 @@ profile = "black"
 pre-commit = "pre-commit run --all-files"
 pre-commit-install = "pre-commit install"
 test = "pytest"
+unittest = "pytest -v -m 'not integration'"
+integration = "pytest -v -m integration"
 ruff = "ruff check"
 black = "black ."
 mypy = "mypy"
@@ -46,3 +52,6 @@ pythonpath = [
     "."
 ]
 addopts = "-ra -q"
+markers = [
+    "integration: integration test."
+]
