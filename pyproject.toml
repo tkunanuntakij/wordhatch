@@ -14,7 +14,7 @@ dependencies = [
     "langchain (>=1.0.2,<2.0.0)",
     "langchain-ollama (>=1.0.0,<2.0.0)",
     "ollama (>=0.6.0,<0.7.0)",
-    "pytest-asyncio (>=1.2.0,<2.0.0)"
+    "httpx (>=0.28.1,<0.29.0)",
 ]
 
 
@@ -29,6 +29,7 @@ ruff = "^0.12.12"
 pre-commit = "^4.3.0"
 black = "^25.1.0"
 mypy = "^1.17.1"
+pytest-asyncio = "^1.2.0"
 
 [tool.mypy]
 files = ["wordhatch", "tests"]
@@ -43,6 +44,7 @@ pre-commit-install = "pre-commit install"
 test = "pytest"
 unittest = "pytest -v -m 'not integration'"
 integration = "pytest -v -m integration"
+integration-api = "pytest -v -k 'api'"
 ruff = "ruff check"
 black = "black ."
 mypy = "mypy"
