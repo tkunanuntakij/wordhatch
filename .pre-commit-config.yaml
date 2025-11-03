@@ -56,9 +56,25 @@ repos:
 
   - repo: local
     hooks:
-    - id: pytest
-      name: pytest
-      entry: poetry run pytest --config-file=pyproject.toml
-      language: system
-      pass_filenames: false
-      stages: [pre-push]
+      - id: pytest
+        name: pytest
+        entry: poetry run poe unittest
+        language: system
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: web-ext-lint
+        name: web extension prettier
+        language: system
+        pass_filenames: false
+        entry: bash -lc 'cd apps/web_extension && pnpm run format'
+
+  - repo: local
+    hooks:
+      - id: web-ext-lint
+        name: web extension eslint
+        language: system
+        pass_filenames: false
+        entry: bash -lc 'cd apps/web_extension && pnpm run lint'
+
